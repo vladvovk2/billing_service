@@ -1,3 +1,4 @@
 .bundle/
 .idea/
+.ruby-lsp/
 env/.env.*.development

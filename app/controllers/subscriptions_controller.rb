@@ -3,8 +3,8 @@ class SubscriptionsController < ApplicationController
 
   post '/paymentIntents/create' do
     {
-      token: '123',
-      amount: params[:amount],
+      token: 'xxx-xxx-xxx-xxx',
+      amount: 1.0,
       status: RESPONSES.sample
     }.to_json
   end
