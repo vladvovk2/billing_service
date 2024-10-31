@@ -39,7 +39,7 @@ module StatusHandlers
     end
 
     def subscription_fully_paid?
-      billing_period.amount_due.eql?(paid_amount)
+      billing_period.amount_due.eql?(amount_paid)
     end
 
     def amount_paid
