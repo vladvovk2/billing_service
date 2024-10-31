@@ -1,0 +1,52 @@
+version: '3.9'
+services:
+  db:
+    container_name: db
+    image: postgres:13
+    ports:
+      - "5433:5432"
+    env_file:
+      - ./env/.env.database.development
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  api:
+    container_name: api
+    build: .
+    command: ["bundle", "exec", "rackup", "-o", "0.0.0.0", "-p", "3000"]
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./env/.env.api.development
+      - ./env/.env.database.development
+    depends_on:
+      - db
+      - redis
+    restart: always
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+
+  sidekiq:
+    container_name: sidekiq
+    build: .
+    command: ["bundle", "exec", "sidekiq", "-C", "./config/sidekiq.yml", "-r", "./app.rb"]
+    env_file:
+      - ./env/.env.api.development
+      - ./env/.env.database.development
+    depends_on:
+      - db
+      - redis
+    restart: always
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+
+  redis:
+    container_name: redis
+    image: redis:6
+
+volumes:
+  db_data:

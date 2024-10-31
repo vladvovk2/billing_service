@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: <%= ENV.fetch("POSTGRES_USER") %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") %>
+  host: db
+  port: 5432
+
+development:
+  <<: *default
+  database: <%= ENV.fetch("POSTGRES_DB") %>_development
+
+test:
+  <<: *default
+  database: <%= ENV.fetch("POSTGRES_DB") %>_test

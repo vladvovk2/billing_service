@@ -1,0 +1,6 @@
+# config/sidekiq.yml
+
+:concurrency: 30
+:queues:
+  - cron
+  - low
